@@ -8,5 +8,8 @@ export default defineConfig({
     enabled: false
   },
   output: 'server',
-  adapter: cloudflare(),
+  adapter: cloudflare({
+    // 禁用 Cloudflare Images 和 Sessions，避免配置冲突
+    imageService: 'passthrough',
+  }),
 });
