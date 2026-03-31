@@ -1,0 +1,145 @@
+---
+const navItems = [
+  { label: 'HOME', href: '/' },
+  { label: 'ABOUT', href: '/about' },
+  { 
+    label: 'SERVICES', 
+    href: '/services',
+    children: [
+      { label: 'Mineral Exploration', href: '/services/exploration' },
+      { label: 'Mining Operations', href: '/services/operations' },
+      { label: 'Equipment Management', href: '/services/equipment' },
+      { label: 'Industrial Engineering', href: '/services/engineering' },
+    ]
+  },
+  { 
+    label: 'PAGES', 
+    href: '#',
+    children: [
+      { label: 'Team', href: '/team' },
+      { label: 'Projects', href: '/project' },
+    ]
+  },
+  { label: 'BLOG', href: '/blog' },
+  { label: 'CONTACT', href: '/contact' },
+];
+---
+
+<header>
+  <!-- Top Bar -->
+  <div class="bg-dark text-white py-2">
+    <div class="container-custom flex justify-between items-center text-sm">
+      <div class="flex items-center gap-6">
+        <a href="tel:+14157043021" class="flex items-center gap-2 hover:text-primary transition">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>+1 415 704 3021</span>
+        </a>
+        <a href="mailto:contact@minetra.com" class="flex items-center gap-2 hover:text-primary transition">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span>contact@minetra.com</span>
+        </a>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="#" class="hover:text-primary transition">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="#" class="hover:text-primary transition">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+        </a>
+        <a href="#" class="hover:text-primary transition">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Main Nav -->
+  <nav class="bg-white shadow-nav sticky top-0 z-50">
+    <div class="container-custom flex justify-between items-center py-4">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-2">
+        <div class="w-10 h-10 bg-primary flex items-center justify-center">
+          <span class="text-white font-bold text-xl">M</span>
+        </div>
+        <span class="text-2xl font-bold text-dark">MINETRA</span>
+      </a>
+      
+      <!-- Desktop Nav -->
+      <div class="hidden lg:flex items-center gap-8">
+        {navItems.map(item => (
+          <div class="relative group">
+            <a 
+              href={item.href} 
+              class="flex items-center gap-1 text-sm font-semibold text-dark hover:text-primary transition py-2"
+            >
+              {item.label}
+              {item.children && (
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+              )}
+            </a>
+            {item.children && (
+              <div class="absolute top-full left-0 bg-white shadow-card min-w-[200px] py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                {item.children.map(child => (
+                  <a 
+                    href={child.href}
+                    class="block px-4 py-2 text-sm text-dark hover:text-primary hover:bg-gray-50 transition"
+                  >
+                    {child.label}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      
+      <!-- CTA Button -->
+      <a href="/contact" class="btn-primary hidden lg:inline-flex">
+        GET A QUOTE
+      </a>
+      
+      <!-- Mobile Menu Button -->
+      <button class="lg:hidden text-dark" id="mobile-menu-btn" aria-label="Toggle menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="lg:hidden hidden bg-white border-t">
+      <div class="container-custom py-4">
+        {navItems.map(item => (
+          <div class="py-2">
+            <a href={item.href} class="block py-2 text-dark font-semibold hover:text-primary">
+              {item.label}
+            </a>
+            {item.children && (
+              <div class="pl-4 mt-2 space-y-2">
+                {item.children.map(child => (
+                  <a href={child.href} class="block py-1 text-sm text-gray-600 hover:text-primary">
+                    {child.label}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+        <a href="/contact" class="btn-primary w-full mt-4 text-center">
+          GET A QUOTE
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  
+  if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  }
+</script>

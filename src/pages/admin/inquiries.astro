@@ -1,0 +1,211 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// 定义环境变量类型
+interface Env {
+  DB: D1Database;
+}
+
+interface Inquiry {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+  status: 'new' | 'read' | 'replied' | 'archived';
+  notes: string;
+  created_at: string;
+  updated_at: string;
+}
+
+// 获取所有询盘
+let inquiries: Inquiry[] = [];
+let error: string | null = null;
+
+try {
+  const env = Astro.locals.runtime?.env as Env;
+  if (env?.DB) {
+    const result = await env.DB.prepare(
+      'SELECT * FROM inquiries ORDER BY created_at DESC'
+    ).all<Inquiry>();
+    inquiries = result.results || [];
+  } else {
+    error = 'Database not available';
+  }
+} catch (e) {
+  error = 'Failed to load inquiries: ' + (e as Error).message;
+  console.error('Database error:', e);
+}
+
+// 状态标签样式
+const statusStyles = {
+  new: 'bg-red-100 text-red-800 border-red-200',
+  read: 'bg-blue-100 text-blue-800 border-blue-200',
+  replied: 'bg-green-100 text-green-800 border-green-200',
+  archived: 'bg-gray-100 text-gray-800 border-gray-200',
+};
+
+const statusLabels = {
+  new: 'New',
+  read: 'Read',
+  replied: 'Replied',
+  archived: 'Archived',
+};
+
+// 格式化日期
+function formatDate(dateStr: string): string {
+  return new Date(dateStr).toLocaleString('zh-CN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
+
+// 截断文本
+function truncate(text: string, maxLength: number = 50): string {
+  if (!text) return '';
+  return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+}
+---
+
+<Layout title="询盘管理 - Minetra Admin">
+  <div class="min-h-screen bg-gray-50">
+    <!-- 顶部导航 -->
+    <nav class="bg-[#1A1A1A] text-white shadow-lg">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+          <div class="flex items-center gap-4">
+            <h1 class="text-xl font-bold">Minetra 询盘管理系统</h1>
+            <span class="text-sm text-gray-400">|</span>
+            <span class="text-sm text-gray-400">Inquiry Management</span>
+          </div>
+          <a href="/" class="text-sm text-[#F5A623] hover:text-[#e09520] transition-colors">
+            ← 返回网站
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- 统计卡片 -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-lg shadow p-6 border-l-4 border-red-500">
+          <div class="text-sm text-gray-600 mb-1">新询盘</div>
+          <div class="text-3xl font-bold text-gray-900">
+            {inquiries.filter(i => i.status === 'new').length}
+          </div>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6 border-l-4 border-blue-500">
+          <div class="text-sm text-gray-600 mb-1">已读</div>
+          <div class="text-3xl font-bold text-gray-900">
+            {inquiries.filter(i => i.status === 'read').length}
+          </div>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-500">
+          <div class="text-sm text-gray-600 mb-1">已回复</div>
+          <div class="text-3xl font-bold text-gray-900">
+            {inquiries.filter(i => i.status === 'replied').length}
+          </div>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6 border-l-4 border-gray-500">
+          <div class="text-sm text-gray-600 mb-1">总询盘</div>
+          <div class="text-3xl font-bold text-gray-900">{inquiries.length}</div>
+        </div>
+      </div>
+
+      <!-- 错误提示 -->
+      {error && (
+        <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
+          <p class="font-medium">错误</p>
+          <p class="text-sm">{error}</p>
+        </div>
+      )}
+
+      <!-- 询盘列表 -->
+      <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+          <h2 class="text-lg font-semibold text-gray-900">询盘列表</h2>
+          <button 
+            onclick="location.reload()"
+            class="text-sm text-[#F5A623] hover:text-[#e09520] transition-colors flex items-center gap-1"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/></svg>
+            刷新
+          </button>
+        </div>
+
+        {inquiries.length === 0 ? (
+          <div class="px-6 py-12 text-center text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-4 text-gray-300"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <p>暂无询盘记录</p>
+          </div>
+        ) : (
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">客户信息</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">主题</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">状态</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">时间</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">操作</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                {inquiries.map((inquiry) => (
+                  <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      #{inquiry.id}
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm font-medium text-gray-900">{inquiry.name}</div>
+                      <div class="text-sm text-gray-500">{inquiry.email}</div>
+                      {inquiry.phone && (
+                        <div class="text-sm text-gray-400">{inquiry.phone}</div>
+                      )}
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="text-sm text-gray-900">{inquiry.subject}</div>
+                      <div class="text-sm text-gray-500 max-w-xs truncate">{truncate(inquiry.message, 40)}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class={`inline-flex px-2 py-1 text-xs font-semibold rounded-full border ${statusStyles[inquiry.status]}`}>
+                        {statusLabels[inquiry.status]}
+                      </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {formatDate(inquiry.created_at)}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <a 
+                        href={`/admin/inquiry/${inquiry.id}`}
+                        class="text-[#F5A623] hover:text-[#e09520] transition-colors"
+                      >
+                        查看详情 →
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+
+      <!-- 使用说明 -->
+      <div class="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
+        <h3 class="text-lg font-semibold text-blue-900 mb-2">使用说明</h3>
+        <ul class="text-sm text-blue-800 space-y-1 list-disc list-inside">
+          <li>新询盘会自动标记为"New"状态</li>
+          <li>点击查看详情可以查看完整消息内容并更新状态</li>
+          <li>建议及时回复客户并将状态更新为"Replied"</li>
+          <li>已处理的询盘可以标记为"Archived"归档</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</Layout>

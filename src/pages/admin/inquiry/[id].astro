@@ -1,0 +1,267 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+
+// 定义环境变量类型
+interface Env {
+  DB: D1Database;
+}
+
+interface Inquiry {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+  status: 'new' | 'read' | 'replied' | 'archived';
+  notes: string;
+  created_at: string;
+  updated_at: string;
+}
+
+const { id } = Astro.params;
+let inquiry: Inquiry | null = null;
+let error: string | null = null;
+
+// 处理 POST 请求（更新状态）
+if (Astro.request.method === 'POST') {
+  try {
+    const formData = await Astro.request.formData();
+    const status = formData.get('status') as string;
+    const notes = formData.get('notes') as string;
+    
+    const env = Astro.locals.runtime?.env as Env;
+    if (env?.DB && id) {
+      await env.DB.prepare(
+        'UPDATE inquiries SET status = ?, notes = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?'
+      ).bind(status, notes, id).run();
+      
+      // 重定向到本页以刷新数据
+      return Astro.redirect(`/admin/inquiry/${id}?updated=true`);
+    }
+  } catch (e) {
+    error = 'Failed to update: ' + (e as Error).message;
+  }
+}
+
+// 获取询盘详情
+try {
+  const env = Astro.locals.runtime?.env as Env;
+  if (env?.DB && id) {
+    const result = await env.DB.prepare(
+      'SELECT * FROM inquiries WHERE id = ?'
+    ).bind(id).first<Inquiry>();
+    
+    if (result) {
+      inquiry = result;
+      
+      // 如果是新询盘，自动标记为已读
+      if (inquiry.status === 'new') {
+        await env.DB.prepare(
+          'UPDATE inquiries SET status = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?'
+        ).bind('read', id).run();
+        inquiry.status = 'read';
+      }
+    } else {
+      error = 'Inquiry not found';
+    }
+  } else {
+    error = 'Database not available';
+  }
+} catch (e) {
+  error = 'Failed to load inquiry: ' + (e as Error).message;
+}
+
+// 状态选项
+const statusOptions = [
+  { value: 'new', label: 'New - 新询盘', color: 'red' },
+  { value: 'read', label: 'Read - 已读', color: 'blue' },
+  { value: 'replied', label: 'Replied - 已回复', color: 'green' },
+  { value: 'archived', label: 'Archived - 已归档', color: 'gray' },
+];
+
+// 格式化日期
+function formatDate(dateStr: string): string {
+  return new Date(dateStr).toLocaleString('zh-CN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  });
+}
+---
+
+<Layout title={`询盘详情 #${id} - Minetra Admin`}>
+  <div class="min-h-screen bg-gray-50">
+    <!-- 顶部导航 -->
+    <nav class="bg-[#1A1A1A] text-white shadow-lg">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+          <div class="flex items-center gap-4">
+            <h1 class="text-xl font-bold">询盘详情</h1>
+          </div>
+          <div class="flex items-center gap-4">
+            <a href="/admin/inquiries" class="text-sm text-gray-300 hover:text-white transition-colors">
+              ← 返回列表
+            </a>
+            <a href="/" class="text-sm text-[#F5A623] hover:text-[#e09520] transition-colors">
+              网站首页
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- 更新成功提示 -->
+      {Astro.url.searchParams.get('updated') === 'true' && (
+        <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded mb-6 flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <span>更新成功！</span>
+        </div>
+      )}
+
+      <!-- 错误提示 -->
+      {error && (
+        <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
+          <p class="font-medium">错误</p>
+          <p class="text-sm">{error}</p>
+        </div>
+      )}
+
+      {inquiry && (
+        <div class="space-y-6">
+          <!-- 客户信息卡片 -->
+          <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+              <h2 class="text-lg font-semibold text-gray-900">客户信息</h2>
+            </div>
+            <div class="p-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">姓名</label>
+                  <div class="text-lg font-semibold text-gray-900">{inquiry.name}</div>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">邮箱</label>
+                  <a href={`mailto:${inquiry.email}`} class="text-lg text-[#F5A623] hover:text-[#e09520] transition-colors">
+                    {inquiry.email}
+                  </a>
+                </div>
+                {inquiry.phone && (
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">电话</label>
+                    <a href={`tel:${inquiry.phone}`} class="text-lg text-[#F5A623] hover:text-[#e09520] transition-colors">
+                      {inquiry.phone}
+                    </a>
+                  </div>
+                )}
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">提交时间</label>
+                  <div class="text-gray-900">{formatDate(inquiry.created_at)}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 询盘内容卡片 -->
+          <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+              <h2 class="text-lg font-semibold text-gray-900">询盘内容</h2>
+            </div>
+            <div class="p-6">
+              <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">主题</label>
+                <div class="text-lg font-medium text-gray-900">{inquiry.subject}</div>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">消息内容</label>
+                <div class="bg-gray-50 rounded-lg p-4 text-gray-800 whitespace-pre-wrap">
+                  {inquiry.message}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 状态管理表单 -->
+          <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+              <h2 class="text-lg font-semibold text-gray-900">状态管理</h2>
+            </div>
+            <div class="p-6">
+              <form method="POST" class="space-y-6">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">当前状态</label>
+                  <select 
+                    name="status" 
+                    class="w-full max-w-xs px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5A623] focus:border-[#F5A623] outline-none transition-all"
+                  >
+                    {statusOptions.map((option) => (
+                      <option value={option.value} selected={inquiry.status === option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">管理员备注</label>
+                  <textarea 
+                    name="notes" 
+                    rows="4"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F5A623] focus:border-[#F5A623] outline-none transition-all"
+                    placeholder="添加关于此询盘的备注信息..."
+                  >{inquiry.notes || ''}</textarea>
+                </div>
+
+                <div class="flex gap-4">
+                  <button 
+                    type="submit"
+                    class="bg-[#F5A623] text-white px-6 py-2 rounded-lg font-medium hover:bg-[#e09520] transition-colors"
+                  >
+                    保存更改
+                  </button>
+                  <a 
+                    href="/admin/inquiries"
+                    class="px-6 py-2 rounded-lg font-medium text-gray-600 hover:bg-gray-100 transition-colors"
+                  >
+                    取消
+                  </a>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- 快捷操作 -->
+          <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+              <h2 class="text-lg font-semibold text-gray-900">快捷操作</h2>
+            </div>
+            <div class="p-6">
+              <div class="flex flex-wrap gap-4">
+                <a 
+                  href={`mailto:${inquiry.email}?subject=Re: ${inquiry.subject}`}
+                  class="inline-flex items-center gap-2 bg-[#1A1A1A] text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                  回复邮件
+                </a>
+                {inquiry.phone && (
+                  <a 
+                    href={`tel:${inquiry.phone}`}
+                    class="inline-flex items-center gap-2 bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    拨打电话
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</Layout>

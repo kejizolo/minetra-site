@@ -1,0 +1,169 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const projects = [
+  {
+    title: 'Copper Mountain Project',
+    category: 'MINING',
+    location: 'Arizona, USA',
+    image: '/images/projects/project-1.jpg',
+    description: 'A large-scale copper extraction project utilizing advanced mining techniques and sustainable practices.',
+  },
+  {
+    title: 'Iron Ore Extraction',
+    category: 'EXTRACTION',
+    location: 'Western Australia',
+    image: '/images/projects/project-2.jpg',
+    description: 'High-capacity iron ore mining operation with state-of-the-art processing facilities.',
+  },
+  {
+    title: 'Gold Mine Development',
+    category: 'DEVELOPMENT',
+    location: 'Nevada, USA',
+    image: '/images/projects/project-3.jpg',
+    description: 'Comprehensive gold mining project from exploration to full-scale production.',
+  },
+  {
+    title: 'Coal Mining Operation',
+    category: 'MINING',
+    location: 'Wyoming, USA',
+    image: '/images/projects/project-4.jpg',
+    description: 'Modern coal extraction facility with emphasis on environmental responsibility.',
+  },
+  {
+    title: 'Limestone Quarry',
+    category: 'QUARRY',
+    location: 'Texas, USA',
+    image: '/images/projects/project-5.jpg',
+    description: 'Sustainable limestone extraction for construction and industrial applications.',
+  },
+  {
+    title: 'Silver Creek Mine',
+    category: 'MINING',
+    location: 'Idaho, USA',
+    image: '/images/projects/project-6.jpg',
+    description: 'Multi-mineral extraction project focusing on silver and associated minerals.',
+  },
+];
+---
+
+<Layout title="Our Projects | Minetra Mining & Industrial Solutions">
+  <!-- Hero Section -->
+  <section class="relative min-h-[400px] flex items-center justify-center">
+    <div class="absolute inset-0">
+      <img 
+        src="/images/hero/project-hero.jpg" 
+        alt="Mining operations"
+        class="w-full h-full object-cover"
+      />
+      <div class="absolute inset-0 bg-dark/60"></div>
+    </div>
+    <div class="container-custom relative z-10 text-center text-white py-20">
+      <nav class="mb-6">
+        <ol class="flex items-center justify-center gap-2 text-sm text-gray-300">
+          <li><a href="/" class="hover:text-primary transition">HOME</a></li>
+          <li>/</li>
+          <li><span class="text-primary">PROJECTS</span></li>
+        </ol>
+      </nav>
+      <h1 class="text-hero-mobile lg:text-hero">OUR PROJECTS</h1>
+    </div>
+  </section>
+
+  <!-- Projects Grid Section -->
+  <section class="section-padding bg-white">
+    <div class="container-custom">
+      <div class="text-center mb-12">
+        <span class="section-label">OUR PROJECTS</span>
+        <h2 class="text-section-mobile lg:text-section mb-4">
+          EXPLORE OUR LATEST MINING PROJECTS<br/>AND INDUSTRY ACHIEVEMENTS
+        </h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+          From mineral exploration to full-scale mining operations, our portfolio showcases our expertise and commitment to excellence.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {projects.map(project => (
+          <div class="card overflow-hidden group">
+            <div class="relative overflow-hidden">
+              <img 
+                src={project.image}
+                alt={project.title}
+                class="w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+              <div class="absolute top-4 left-4">
+                <span class="bg-primary text-white text-xs font-semibold px-3 py-1 uppercase">
+                  {project.category}
+                </span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center gap-2 text-gray-400 text-sm mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span>{project.location}</span>
+              </div>
+              <h3 class="text-xl font-bold text-dark mb-3 group-hover:text-primary transition">
+                {project.title}
+              </h3>
+              <p class="text-gray-600 text-sm mb-4">{project.description}</p>
+              <a href="/contact" class="inline-flex items-center gap-2 text-primary font-semibold text-sm hover:gap-3 transition-all">
+                VIEW PROJECT
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="py-16 bg-primary">
+    <div class="container-custom">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white">
+        <div>
+          <span class="text-4xl lg:text-5xl font-bold">120+</span>
+          <p class="mt-2 text-white/80">Projects Completed</p>
+        </div>
+        <div>
+          <span class="text-4xl lg:text-5xl font-bold">25+</span>
+          <p class="mt-2 text-white/80">Countries Served</p>
+        </div>
+        <div>
+          <span class="text-4xl lg:text-5xl font-bold">50M+</span>
+          <p class="mt-2 text-white/80">Tons Extracted</p>
+        </div>
+        <div>
+          <span class="text-4xl lg:text-5xl font-bold">99%</span>
+          <p class="mt-2 text-white/80">Safety Record</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="relative py-20 lg:py-28">
+    <div class="absolute inset-0">
+      <img 
+        src="/images/hero/services-hero.jpg" 
+        alt="Mining site"
+        class="w-full h-full object-cover"
+      />
+      <div class="absolute inset-0 bg-dark/70"></div>
+    </div>
+    <div class="container-custom relative z-10">
+      <div class="max-w-2xl">
+        <span class="text-primary font-semibold uppercase tracking-wider text-sm mb-4 block">GET STARTED</span>
+        <h2 class="text-section-mobile lg:text-section text-white mb-6">
+          HAVE A PROJECT IN MIND?
+        </h2>
+        <p class="text-gray-300 mb-8">
+          Let's discuss how Minetra can help bring your mining project to life with our expertise and resources.
+        </p>
+        <a href="/contact" class="btn-primary">
+          START A PROJECT
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

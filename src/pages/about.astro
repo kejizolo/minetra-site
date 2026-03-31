@@ -1,0 +1,406 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const stats = [
+  { number: '120+', label: 'Projects Completed' },
+  { number: '75+', label: 'Expert Engineers' },
+  { number: '50+', label: 'Awards Won' },
+];
+
+const services = [
+  'Advanced Technology Integration',
+  'Environmental Responsibility',
+  'Certified Safety Standards',
+  '24/7 Support & Maintenance',
+  'Sustainable Resource Development',
+  'Industrial Engineering Excellence',
+];
+
+const team = [
+  {
+    name: 'Michael Chen',
+    role: 'Chief Executive Officer',
+    image: '/images/team/member-1.jpg',
+  },
+  {
+    name: 'Sarah Williams',
+    role: 'Operations Director',
+    image: '/images/team/member-2.jpg',
+  },
+  {
+    name: 'David Rodriguez',
+    role: 'Chief Engineer',
+    image: '/images/team/member-3.jpg',
+  },
+  {
+    name: 'Emily Johnson',
+    role: 'Safety Manager',
+    image: '/images/team/member-4.jpg',
+  },
+];
+
+const testimonials = [
+  {
+    content: 'Minetra has been an exceptional partner in our mining operations. Their expertise and dedication to safety have significantly improved our productivity.',
+    author: 'John Smith',
+    role: 'Operations Director, GoldCorp',
+    avatar: '/images/team/member-1.jpg',
+  },
+  {
+    content: 'The team at Minetra delivered outstanding results on our mineral exploration project. Their technical knowledge is unmatched in the industry.',
+    author: 'Sarah Johnson',
+    role: 'CEO, Mineral Resources Inc',
+    avatar: '/images/team/member-2.jpg',
+  },
+];
+
+const faqs = [
+  {
+    question: 'What mining services do you offer?',
+    answer: 'We offer comprehensive mining services including mineral exploration, extraction, equipment management, industrial engineering, and safety consulting.',
+  },
+  {
+    question: 'How do you ensure safety on mining sites?',
+    answer: 'Safety is our top priority. We implement strict safety protocols, regular training programs, and continuous monitoring to ensure compliance with all regulations.',
+  },
+  {
+    question: 'Do you provide environmental management solutions?',
+    answer: 'Yes, we specialize in sustainable mining practices and environmental management to minimize ecological impact while maximizing resource extraction.',
+  },
+  {
+    question: 'How experienced is your team?',
+    answer: 'Our team consists of over 75 expert engineers and mining professionals with decades of combined experience in the industry.',
+  },
+  {
+    question: 'Can you handle large-scale mining projects?',
+    answer: 'Absolutely. We have successfully completed over 120 projects of varying scales, from small operations to large industrial mining ventures.',
+  },
+  {
+    question: 'How can I start a project with Minetra?',
+    answer: 'Simply contact us through our website or call us directly. Our team will schedule a consultation to discuss your project requirements.',
+  },
+];
+
+const values = [
+  {
+    icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    title: 'Safety First',
+    description: 'We prioritize the safety of our workers and communities above all else.'
+  },
+  {
+    icon: 'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064',
+    title: 'Global Reach',
+    description: 'Operating across multiple continents with local expertise.'
+  },
+  {
+    icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15',
+    title: 'Innovation',
+    description: 'Constantly evolving our methods with cutting-edge technology.'
+  },
+  {
+    icon: 'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064',
+    title: 'Sustainability',
+    description: 'Committed to environmentally responsible mining practices.'
+  },
+];
+---
+
+<Layout title="About Us | Minetra Mining & Industrial Solutions">
+  <!-- Hero Section -->
+  <section class="relative min-h-[450px] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0">
+      <img 
+        src="/images/hero/about-hero.jpg" 
+        alt="Mining operations"
+        class="w-full h-full object-cover"
+      />
+      <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80"></div>
+    </div>
+    <div class="container-custom relative z-10 text-center text-white py-24">
+      <nav class="mb-6">
+        <ol class="flex items-center justify-center gap-3 text-sm">
+          <li><a href="/" class="text-gray-300 hover:text-[#F5A623] transition">Home</a></li>
+          <li class="text-gray-500">/</li>
+          <li><span class="text-[#F5A623]">About</span></li>
+        </ol>
+      </nav>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">ABOUT</h1>
+      <div class="w-20 h-1 bg-[#F5A623] mx-auto"></div>
+    </div>
+  </section>
+
+  <!-- About Content Section -->
+  <section class="py-20 lg:py-28 bg-white">
+    <div class="container-custom">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="space-y-4">
+            <img 
+              src="/images/projects/project-1.jpg" 
+              alt="Mining equipment"
+              class="w-full h-64 object-cover rounded-sm"
+            />
+            <img 
+              src="/images/projects/project-3.jpg" 
+              alt="Mining operations"
+              class="w-full h-48 object-cover rounded-sm"
+            />
+          </div>
+          <div class="pt-8">
+            <img 
+              src="/images/projects/project-2.jpg" 
+              alt="Mining site"
+              class="w-full h-80 object-cover rounded-sm"
+            />
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-8 h-[2px] bg-[#F5A623]"></div>
+            <span class="text-[#F5A623] text-sm font-semibold uppercase tracking-[3px]">About Us</span>
+          </div>
+          <h2 class="text-2xl md:text-3xl lg:text-[36px] font-bold text-[#1A1A1A] mb-6 leading-tight">
+            Delivering Innovative Mining Services and Industrial Expertise to Support Sustainable Resource Development
+          </h2>
+          <p class="text-gray-500 mb-6 leading-relaxed">
+            Minetra is a leading provider of mining and industrial solutions, committed to delivering excellence in every project we undertake. With our team of experienced professionals and state-of-the-art technology, we ensure optimal results while maintaining the highest safety and environmental standards.
+          </p>
+          <p class="text-gray-500 mb-8 leading-relaxed">
+            Our comprehensive approach combines technical expertise with sustainable practices, ensuring that we not only meet but exceed our clients' expectations. From initial exploration to final extraction, we provide end-to-end solutions tailored to each project's unique requirements.
+          </p>
+          <a href="/contact" class="bg-[#F5A623] text-white px-8 py-4 font-semibold uppercase tracking-wider text-sm hover:bg-[#e09520] transition-all duration-300 inline-flex items-center gap-2 group">
+            Contact Us
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-1 transition-transform"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="py-16 lg:py-20 bg-[#1A1A1A]">
+    <div class="container-custom">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {stats.map((stat, index) => (
+          <div class="text-center relative">
+            {index !== stats.length - 1 && (
+              <div class="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 w-px h-20 bg-gray-700"></div>
+            )}
+            <span class="text-5xl lg:text-6xl font-bold text-[#F5A623]">{stat.number}</span>
+            <p class="text-gray-400 mt-3 uppercase tracking-wider text-sm">{stat.label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Values Section -->
+  <section class="py-20 lg:py-28 bg-gray-50">
+    <div class="container-custom">
+      <div class="text-center mb-16">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <div class="w-8 h-[2px] bg-[#F5A623]"></div>
+          <span class="text-[#F5A623] text-sm font-semibold uppercase tracking-[3px]">Our Values</span>
+          <div class="w-8 h-[2px] bg-[#F5A623]"></div>
+        </div>
+        <h2 class="text-3xl md:text-4xl lg:text-[44px] font-bold text-[#1A1A1A]">
+          What Drives Us Forward
+        </h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        {values.map(value => (
+          <div class="bg-white p-8 text-center group hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-[#F5A623]">
+            <div class="w-16 h-16 mx-auto bg-[#F5A623]/10 flex items-center justify-center mb-6 group-hover:bg-[#F5A623] transition-colors duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[#F5A623] group-hover:text-white transition-colors duration-300">
+                <path d={value.icon} />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-[#1A1A1A] mb-3 group-hover:text-[#F5A623] transition-colors">{value.title}</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">{value.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Services List Section -->
+  <section class="py-20 lg:py-28 bg-white">
+    <div class="container-custom">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div class="relative">
+          <img 
+            src="/images/about-excavator.jpg" 
+            alt="Mining site"
+            class="w-full h-[450px] object-cover"
+          />
+          <div class="absolute -bottom-6 -left-6 bg-[#F5A623] text-white p-6 shadow-xl">
+            <span class="text-4xl font-bold block">25+</span>
+            <span class="text-sm uppercase tracking-wider">Years Experience</span>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-8 h-[2px] bg-[#F5A623]"></div>
+            <span class="text-[#F5A623] text-sm font-semibold uppercase tracking-[3px]">Our Expertise</span>
+          </div>
+          <h2 class="text-2xl md:text-3xl lg:text-[36px] font-bold text-[#1A1A1A] mb-6 leading-tight">
+            Delivering Reliable Mining Solutions With Strong Focus on Safety, Efficiency & Sustainable Development
+          </h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+            {services.map(service => (
+              <div class="flex items-center gap-3">
+                <div class="w-6 h-6 bg-[#F5A623] flex items-center justify-center flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M20 6 9 17l-5-5"/></svg>
+                </div>
+                <span class="text-[#1A1A1A] font-medium text-sm">{service}</span>
+              </div>
+            ))}
+          </div>
+          <a href="/services" class="bg-[#F5A623] text-white px-8 py-4 font-semibold uppercase tracking-wider text-sm hover:bg-[#e09520] transition-all duration-300 inline-flex items-center gap-2 group">
+            Our Services
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-1 transition-transform"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section class="py-20 lg:py-28 bg-gray-50">
+    <div class="container-custom">
+      <div class="text-center mb-16">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <div class="w-8 h-[2px] bg-[#F5A623]"></div>
+          <span class="text-[#F5A623] text-sm font-semibold uppercase tracking-[3px]">Our Team</span>
+          <div class="w-8 h-[2px] bg-[#F5A623]"></div>
+        </div>
+        <h2 class="text-3xl md:text-4xl lg:text-[44px] font-bold text-[#1A1A1A]">
+          Meet Our Expert Team
+        </h2>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        {team.map(member => (
+          <div class="group bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+            <div class="relative overflow-hidden">
+              <img 
+                src={member.image}
+                alt={member.name}
+                class="w-full aspect-[3/4] object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div class="absolute inset-0 bg-[#F5A623]/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <div class="flex items-center gap-4">
+                  <a href="#" class="w-10 h-10 bg-white flex items-center justify-center hover:bg-[#1A1A1A] hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                  </a>
+                  <a href="#" class="w-10 h-10 bg-white flex items-center justify-center hover:bg-[#1A1A1A] hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+                  </a>
+                  <a href="#" class="w-10 h-10 bg-white flex items-center justify-center hover:bg-[#1A1A1A] hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="p-6 text-center">
+              <h3 class="text-lg font-bold text-[#1A1A1A] group-hover:text-[#F5A623] transition-colors">{member.name}</h3>
+              <p class="text-[#F5A623] text-sm mt-1">{member.role}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="relative py-24 lg:py-32 overflow-hidden">
+    <div class="absolute inset-0">
+      <img 
+        src="/images/hero/contact-hero.jpg" 
+        alt="Mining site"
+        class="w-full h-full object-cover"
+      />
+      <div class="absolute inset-0 bg-[#1A1A1A]/85"></div>
+    </div>
+    <div class="container-custom relative z-10">
+      <div class="max-w-3xl">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-8 h-[2px] bg-[#F5A623]"></div>
+          <span class="text-[#F5A623] font-semibold uppercase tracking-[3px] text-sm">Get Started</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl lg:text-[52px] font-bold text-white mb-6 leading-tight">
+          Start Your Next Mining Project With Confidence
+        </h2>
+        <p class="text-gray-300 mb-10 text-lg max-w-xl">
+          Partner with industry experts who understand the complexities of modern mining operations.
+        </p>
+        <a href="/contact" class="bg-[#F5A623] text-white px-8 py-4 font-semibold uppercase tracking-wider text-sm hover:bg-[#e09520] transition-all duration-300 inline-flex items-center gap-2 group">
+          Get In Touch
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-1 transition-transform"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="py-20 lg:py-28 bg-white">
+    <div class="container-custom">
+      <div class="text-center mb-16">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <div class="w-8 h-[2px] bg-[#F5A623]"></div>
+          <span class="text-[#F5A623] text-sm font-semibold uppercase tracking-[3px]">Testimonials</span>
+          <div class="w-8 h-[2px] bg-[#F5A623]"></div>
+        </div>
+        <h2 class="text-3xl md:text-4xl lg:text-[44px] font-bold text-[#1A1A1A]">
+          What Our Clients Say
+        </h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        {testimonials.map(testimonial => (
+          <div class="bg-gray-50 p-8 lg:p-10 relative">
+            <div class="absolute top-0 left-0 w-1 h-full bg-[#F5A623]"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="currentColor" class="text-[#F5A623]/20 absolute top-6 right-6"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V21c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+            <p class="text-gray-600 mb-8 leading-relaxed relative z-10 text-base">{testimonial.content}</p>
+            <div class="flex items-center gap-4">
+              <img src={testimonial.avatar} alt={testimonial.author} class="w-14 h-14 rounded-full object-cover border-2 border-[#F5A623]" />
+              <div>
+                <h4 class="font-bold text-[#1A1A1A] text-lg">{testimonial.author}</h4>
+                <p class="text-[#F5A623] text-sm">{testimonial.role}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="py-20 lg:py-28 bg-gray-50">
+    <div class="container-custom">
+      <div class="text-center mb-16">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <div class="w-8 h-[2px] bg-[#F5A623]"></div>
+          <span class="text-[#F5A623] text-sm font-semibold uppercase tracking-[3px]">FAQ</span>
+          <div class="w-8 h-[2px] bg-[#F5A623]"></div>
+        </div>
+        <h2 class="text-3xl md:text-4xl lg:text-[44px] font-bold text-[#1A1A1A]">
+          Frequently Asked Questions
+        </h2>
+      </div>
+      <div class="max-w-3xl mx-auto space-y-4">
+        {faqs.map((faq, index) => (
+          <details class="group bg-white border border-gray-200 open:border-[#F5A623] transition-colors duration-300">
+            <summary class="flex items-center justify-between p-6 cursor-pointer list-none select-none">
+              <span class="font-semibold text-[#1A1A1A] pr-8 text-base group-hover:text-[#F5A623] transition-colors">{faq.question}</span>
+              <div class="w-8 h-8 bg-gray-100 group-hover:bg-[#F5A623] flex items-center justify-center flex-shrink-0 transition-colors duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-500 group-hover:text-white transition-all duration-300 group-open:rotate-180"><path d="m6 9 6 6 6-6"/></svg>
+              </div>
+            </summary>
+            <div class="px-6 pb-6 text-gray-500 leading-relaxed border-t border-gray-100 pt-4">
+              {faq.answer}
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

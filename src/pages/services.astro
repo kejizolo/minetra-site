@@ -1,0 +1,205 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const services = [
+  {
+    icon: 'M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6',
+    title: 'Mineral Exploration',
+    description: 'Comprehensive geological surveys and resource assessment to identify valuable mineral deposits. Our expert team uses cutting-edge technology to locate and evaluate mineral resources.',
+  },
+  {
+    icon: 'M6 9l6 6 6-6',
+    title: 'Mining Operations',
+    description: 'Efficient extraction and processing of minerals using state-of-the-art equipment and techniques. We ensure maximum yield while maintaining safety standards.',
+  },
+  {
+    icon: 'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5',
+    title: 'Equipment Management',
+    description: 'Comprehensive maintenance and management of mining machinery for optimal performance. We provide regular servicing and emergency repairs.',
+  },
+  {
+    icon: 'M12 3v18M3 12h18M7.5 7.5l9 9M16.5 7.5l-9 9',
+    title: 'Industrial Engineering',
+    description: 'Innovative engineering solutions to optimize mining processes and increase productivity. Our engineers design custom solutions for unique challenges.',
+  },
+  {
+    icon: 'M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z',
+    title: 'Resource Development',
+    description: 'Sustainable development strategies to maximize resource utilization while minimizing environmental impact. We focus on long-term viability.',
+  },
+  {
+    icon: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+    title: 'Safety Consulting',
+    description: 'Expert safety assessments and training programs to ensure compliance with industry regulations. We help create safer working environments.',
+  },
+];
+
+const testimonials = [
+  {
+    content: 'Minetra has been an exceptional partner in our mining operations. Their expertise and dedication to safety have significantly improved our productivity.',
+    author: 'John Smith',
+    role: 'Operations Director, GoldCorp',
+    avatar: '/images/team/member-1.jpg',
+  },
+  {
+    content: 'The team at Minetra delivered outstanding results on our mineral exploration project. Their technical knowledge is unmatched in the industry.',
+    author: 'Sarah Johnson',
+    role: 'CEO, Mineral Resources Inc',
+    avatar: '/images/team/member-2.jpg',
+  },
+];
+---
+
+<Layout title="Our Services | Minetra Mining & Industrial Solutions">
+  <!-- Hero Section -->
+  <section class="relative min-h-[400px] flex items-center justify-center">
+    <div class="absolute inset-0">
+      <img 
+        src="/images/hero/services-hero.jpg" 
+        alt="Mining operations"
+        class="w-full h-full object-cover"
+      />
+      <div class="absolute inset-0 bg-dark/60"></div>
+    </div>
+    <div class="container-custom relative z-10 text-center text-white py-20">
+      <nav class="mb-6">
+        <ol class="flex items-center justify-center gap-2 text-sm text-gray-300">
+          <li><a href="/" class="hover:text-primary transition">HOME</a></li>
+          <li>/</li>
+          <li><span class="text-primary">SERVICES</span></li>
+        </ol>
+      </nav>
+      <h1 class="text-hero-mobile lg:text-hero">OUR SERVICES</h1>
+    </div>
+  </section>
+
+  <!-- Services Grid Section -->
+  <section class="section-padding bg-white">
+    <div class="container-custom">
+      <div class="text-center mb-12">
+        <span class="section-label">OUR SERVICES</span>
+        <h2 class="text-section-mobile lg:text-section mb-4">
+          COMPREHENSIVE MINING<br/>INDUSTRIAL SERVICES
+        </h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+          We provide a full range of mining services designed to optimize operations, enhance safety, and maximize resource extraction.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {services.map(service => (
+          <div class="card p-8 group">
+            <div class="w-16 h-16 bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary transition-colors duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary group-hover:text-white transition-colors duration-300">
+                <path d={service.icon} />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-dark mb-4">{service.title}</h3>
+            <p class="text-gray-600 mb-6 text-sm leading-relaxed">{service.description}</p>
+            <a href="/contact" class="inline-flex items-center gap-2 text-primary font-semibold text-sm hover:gap-3 transition-all">
+              READ MORE
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="section-padding bg-gray-50">
+    <div class="container-custom">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <img 
+            src="/images/projects/project-1.jpg" 
+            alt="Mining equipment"
+            class="w-full rounded-sm"
+          />
+        </div>
+        <div>
+          <span class="section-label">WHY CHOOSE US</span>
+          <h2 class="text-section-mobile lg:text-section mb-6">
+            TRUSTED MINING PARTNER FOR OVER TWO DECADES
+          </h2>
+          <p class="text-gray-600 mb-6 leading-relaxed">
+            With our extensive experience and commitment to excellence, we have established ourselves as a trusted partner in the mining industry. Our comprehensive service offerings ensure that all your mining needs are met under one roof.
+          </p>
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-center gap-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M20 6 9 17l-5-5"/></svg>
+              <span class="text-dark">Industry-leading expertise</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M20 6 9 17l-5-5"/></svg>
+              <span class="text-dark">Cutting-edge technology</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M20 6 9 17l-5-5"/></svg>
+              <span class="text-dark">Commitment to safety</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M20 6 9 17l-5-5"/></svg>
+              <span class="text-dark">Sustainable practices</span>
+            </li>
+          </ul>
+          <a href="/contact" class="btn-primary">
+            GET A QUOTE
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="relative py-20 lg:py-28">
+    <div class="absolute inset-0">
+      <img 
+        src="/images/hero/contact-hero.jpg" 
+        alt="Mining site"
+        class="w-full h-full object-cover"
+      />
+      <div class="absolute inset-0 bg-dark/70"></div>
+    </div>
+    <div class="container-custom relative z-10">
+      <div class="max-w-2xl">
+        <span class="text-primary font-semibold uppercase tracking-wider text-sm mb-4 block">GET STARTED</span>
+        <h2 class="text-section-mobile lg:text-section text-white mb-6">
+          READY TO START YOUR MINING PROJECT?
+        </h2>
+        <p class="text-gray-300 mb-8">
+          Contact us today to discuss your requirements and get a customized solution for your mining needs.
+        </p>
+        <a href="/contact" class="btn-primary">
+          CONTACT US
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="section-padding bg-white">
+    <div class="container-custom">
+      <div class="text-center mb-12">
+        <span class="section-label">TESTIMONIALS</span>
+        <h2 class="text-section-mobile lg:text-section mb-4">
+          WHAT OUR CLIENTS SAY
+        </h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        {testimonials.map(testimonial => (
+          <div class="bg-gray-50 p-8 relative">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="currentColor" class="text-primary/20 absolute top-6 right-6"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V21c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+            <p class="text-gray-600 mb-6 leading-relaxed relative z-10">{testimonial.content}</p>
+            <div class="flex items-center gap-4">
+              <img src={testimonial.avatar} alt={testimonial.author} class="w-12 h-12 rounded-full object-cover" />
+              <div>
+                <h4 class="font-bold text-dark">{testimonial.author}</h4>
+                <p class="text-primary text-sm">{testimonial.role}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

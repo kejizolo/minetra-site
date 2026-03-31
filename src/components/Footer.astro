@@ -1,0 +1,114 @@
+---
+const quickLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about' },
+  { label: 'Services', href: '/services' },
+  { label: 'Project', href: '/project' },
+  { label: 'Contact', href: '/contact' },
+];
+
+const services = [
+  { label: 'Mineral Exploration', href: '/services/exploration' },
+  { label: 'Mining Operations', href: '/services/operations' },
+  { label: 'Equipment Management', href: '/services/equipment' },
+  { label: 'Industrial Engineering', href: '/services/engineering' },
+  { label: 'Resource Development', href: '/services/development' },
+];
+---
+
+<footer class="bg-dark text-white">
+  <!-- Main Footer -->
+  <div class="container-custom py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+      <!-- Column 1: Logo & Newsletter -->
+      <div>
+        <a href="/" class="flex items-center gap-2 mb-6">
+          <div class="w-10 h-10 bg-primary flex items-center justify-center">
+            <span class="text-white font-bold text-xl">M</span>
+          </div>
+          <span class="text-2xl font-bold">MINETRA</span>
+        </a>
+        <p class="text-gray-400 mb-6 text-sm leading-relaxed">
+          Get the latest updates on mining projects, industry insights, and company news delivered to your inbox.
+        </p>
+        <form class="flex" onsubmit="event.preventDefault();">
+          <input 
+            type="email" 
+            placeholder="Your email" 
+            class="flex-1 px-4 py-3 bg-dark-300 text-white text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+          />
+          <button type="submit" class="bg-primary px-4 py-3 hover:bg-primary-500 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4 20-7z"/><path d="M22 2 11 13"/></svg>
+          </button>
+        </form>
+      </div>
+      
+      <!-- Column 2: Quick Links -->
+      <div>
+        <h4 class="text-lg font-bold mb-6">QUICK LINK</h4>
+        <ul class="space-y-3">
+          {quickLinks.map(link => (
+            <li>
+              <a href={link.href} class="text-gray-400 hover:text-primary transition text-sm">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      
+      <!-- Column 3: Services -->
+      <div>
+        <h4 class="text-lg font-bold mb-6">SERVICES</h4>
+        <ul class="space-y-3">
+          {services.map(service => (
+            <li>
+              <a href={service.href} class="text-gray-400 hover:text-primary transition text-sm">
+                {service.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      
+      <!-- Column 4: Contact -->
+      <div>
+        <h4 class="text-lg font-bold mb-6">CONTACT US</h4>
+        <ul class="space-y-4">
+          <li class="flex items-start gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary mt-0.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <div>
+              <p class="text-gray-400 text-sm">+1 415 704 3021</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary mt-0.5"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            <div>
+              <p class="text-gray-400 text-sm">contact@minetra.com</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary mt-0.5"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            <div>
+              <p class="text-gray-400 text-sm">240 Industry Road</p>
+              <p class="text-gray-400 text-sm">Denver, CO 80236, USA</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Footer Bottom -->
+  <div class="border-t border-dark-300">
+    <div class="container-custom py-6 flex flex-col md:flex-row justify-between items-center gap-4">
+      <p class="text-gray-400 text-sm">
+        © 2024 Minetra. All rights reserved.
+      </p>
+      <div class="flex items-center gap-6 text-sm text-gray-400">
+        <a href="#" class="hover:text-primary transition">Privacy Policy</a>
+        <a href="#" class="hover:text-primary transition">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
