@@ -1,27 +1,12 @@
-import type { APIRoute } from 'astro';
+// Cloudflare Pages Function for contact form submission
+export async function onRequest(context) {
+  // 只处理 POST 请求
+  if (context.request.method !== 'POST') {
+    return new Response('Method Not Allowed', { status: 405 });
+  }
 
-// 定义环境变量类型
-interface Env {
-  DB: D1Database;
-  RESEND_API_KEY: string;
-  CONTACT_EMAIL: string;
-}
-
-interface ContactFormData {
-  name: string;
-  email: string;
-  phone?: string;
-  subject: string;
-  message: string;
-}
-
-export const POST: APIRoute = async ({ request, locals }) => {
-  console.log('API endpoint called');
-  
   try {
-    const data: ContactFormData = await request.json();
-    console.log('Received data:', { name: data.name, email: data.email, subject: data.subject });
-    
+    const data = await context.request.json();
     const { name, email, phone, subject, message } = data;
 
     // 验证必填字段
@@ -48,101 +33,62 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     // 获取环境变量
-    const env = locals.runtime?.env as Env;
-    const apiKey = env?.RESEND_API_KEY || 're_EURQsKzD_Az8qwvjpYgGkXWSMoWTHayPB';
-    const contactEmail = env?.CONTACT_EMAIL || 'anjieda@gmail.com';
-    
-    console.log('Using API Key:', apiKey ? 'Yes' : 'No');
-    console.log('Sending to:', contactEmail);
+    const apiKey = context.env.RESEND_API_KEY || 're_EURQsKzD_Az8qwvjpYgGkXWSMoWTHayPB';
+    const contactEmail = context.env.CONTACT_EMAIL || 'anjieda@gmail.com';
 
-    // 1. 保存到 D1 数据库
-    let inquiryId: number | null = null;
-    try {
-      const db = env?.DB;
-      if (db) {
-        const result = await db.prepare(
-          `INSERT INTO inquiries (name, email, phone, subject, message, status) 
-           VALUES (?, ?, ?, ?, ?, 'new')`
-        ).bind(name, email, phone || '', subject, message).run();
-        
-        inquiryId = result.meta?.last_row_id || null;
-        console.log('Saved to database, ID:', inquiryId);
-      } else {
-        console.log('DB not available, skipping database save');
-      }
-    } catch (dbError) {
-      console.error('Database error:', dbError);
-      // 数据库错误不影响邮件发送
-    }
+    // 发送邮件
+    const emailResponse = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'Minetra Contact <onboarding@resend.dev>',
+        to: [contactEmail],
+        reply_to: email,
+        subject: `[Minetra Inquiry] ${getSubjectLabel(subject)} - ${name}`,
+        html: generateEmailHTML(data),
+      }),
+    });
 
-    // 2. 发送邮件（使用 fetch 调用 Resend API）
-    try {
-      const emailResponse = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: 'Minetra Contact <onboarding@resend.dev>',
-          to: [contactEmail],
-          reply_to: email,
-          subject: `[Minetra Inquiry] ${getSubjectLabel(subject)} - ${name}`,
-          html: generateEmailHTML(data),
-        }),
-      });
-
-      if (!emailResponse.ok) {
-        const errorData = await emailResponse.json();
-        console.error('Resend error:', errorData);
-        return new Response(
-          JSON.stringify({ 
-            success: false, 
-            message: 'Failed to send message. Please try again later.' 
-          }),
-          { status: 500, headers: { 'Content-Type': 'application/json' } }
-        );
-      }
-
-      const emailResult = await emailResponse.json();
-      console.log('Email sent successfully:', emailResult.id);
-
-      return new Response(
-        JSON.stringify({ 
-          success: true, 
-          message: 'Thank you for your message! We will get back to you within 24 hours.',
-          inquiryId: inquiryId,
-          emailId: emailResult.id 
-        }),
-        { status: 200, headers: { 'Content-Type': 'application/json' } }
-      );
-
-    } catch (emailError) {
-      console.error('Email sending error:', emailError);
+    if (!emailResponse.ok) {
+      const errorData = await emailResponse.json();
+      console.error('Resend error:', errorData);
       return new Response(
         JSON.stringify({ 
           success: false, 
-          message: 'Failed to send email. Please try again later.' 
+          message: 'Failed to send message. Please try again later.' 
         }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
+    const emailResult = await emailResponse.json();
+
+    return new Response(
+      JSON.stringify({ 
+        success: true, 
+        message: 'Thank you for your message! We will get back to you within 24 hours.',
+        emailId: emailResult.id 
+      }),
+      { status: 200, headers: { 'Content-Type': 'application/json' } }
+    );
+
   } catch (error) {
     console.error('Server error:', error);
-    console.error('Error stack:', (error as Error).stack);
     return new Response(
       JSON.stringify({ 
         success: false, 
-        message: 'Server error: ' + (error as Error).message 
+        message: 'Server error: ' + error.message 
       }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }
-};
+}
 
-function getSubjectLabel(subject: string): string {
-  const labels: Record<string, string> = {
+function getSubjectLabel(subject) {
+  const labels = {
     'general': 'General Inquiry',
     'quote': 'Request Quote',
     'partnership': 'Partnership',
@@ -151,7 +97,7 @@ function getSubjectLabel(subject: string): string {
   return labels[subject] || subject;
 }
 
-function generateEmailHTML(data: ContactFormData): string {
+function generateEmailHTML(data) {
   const { name, email, phone, subject, message } = data;
   
   const dateStr = new Date().toLocaleString('en-US', { 
@@ -233,7 +179,7 @@ function generateEmailHTML(data: ContactFormData): string {
   `;
 }
 
-function escapeHtml(text: string): string {
+function escapeHtml(text) {
   if (!text) return '';
   return text
     .replace(/&/g, '&amp;')
