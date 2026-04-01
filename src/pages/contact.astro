@@ -309,8 +309,7 @@ form?.addEventListener('submit', async (e) => {
   setLoading(true);
   
   try {
-    // 使用 Cloudflare Pages Functions 路径
-    const response = await fetch('/contact', {
+    const response = await fetch('/api/contact', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
