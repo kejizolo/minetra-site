@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { env } from 'cloudflare:workers';
 
 // 定义环境变量类型
 interface Env {
@@ -15,7 +16,7 @@ interface ContactFormData {
   message: string;
 }
 
-export const POST: APIRoute = async ({ request, locals }) => {
+export const POST: APIRoute = async ({ request }) => {
   console.log('API endpoint called');
   
   try {
@@ -48,10 +49,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     // 获取环境变量
-    const env = locals.runtime?.env as Env | undefined;
-    const db = env?.DB;
-    const apiKey = env?.RESEND_API_KEY;
-    const contactEmail = env?.CONTACT_EMAIL;
+    const runtimeEnv = env as Env;
+    const db = runtimeEnv?.DB;
+    const apiKey = runtimeEnv?.RESEND_API_KEY;
+    const contactEmail = runtimeEnv?.CONTACT_EMAIL;
 
     if (!db) {
       return new Response(
